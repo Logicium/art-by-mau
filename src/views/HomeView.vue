@@ -6,15 +6,35 @@ import FacebookIcon from "@/assets/FacebookIcon.vue";
 import InstaIcon from "@/assets/InstaIcon.vue";
 import {ref} from "vue";
 
-const section1 = ref(false);
-const section2 = ref(false);
-const section3 = ref(false);
-const section4 = ref(false);
-const section5 = ref(false);
+const section1 = ref("normal");
+const section2 = ref("normal");
+const section3 = ref("normal");
+const section4 = ref("normal");
+const section5 = ref("normal");
 
-const click = function (){
+const singleGrid = ref(false);
 
+const section1Click = function(){
+  if(section1.value === "normal"){
+
+    singleGrid.value = true;
+
+    section1.value = "expand";
+    section2.value = "contract";
+    section3.value = "contract";
+    section4.value = "contract";
+    section5.value = "contract";
+  }else if(section1.value === "expand"){
+
+    singleGrid.value = false;
+    section1.value = "normal";
+    section2.value = "normal";
+    section3.value = "normal";
+    section4.value = "normal";
+    section5.value = "normal";
+  }
 }
+
 
 </script>
 
@@ -25,16 +45,18 @@ const click = function (){
 <!--      <Logo/>-->
       <div class="phrase">Beautiful Things with an Artsy Touch</div>
     </div>
-    <div class="imageGrid">
-      <div class="img1" :class="section1 ? 'expand' : '' " @click="section1 = !section1">
-        <div v-if="section1" class="imgInfo"></div>
+    <div class="imageGrid" :class="singleGrid ? 'singleGrid':''">
+      <div class="img1" :class="section1" @click="section1Click">
+        <div v-if="section1==='expand'" class="imgInfo"></div>
       </div>
-      <div class="img2" :class="section2 ? 'expand' : '' " @click="section2 = !section2">
-        <div v-if="section2" class="imgInfo">This piece is called walking in the rain and it is inspired by the colors of Raton in spring. </div>
+      <div class="img2" :class="section2">
+        <div v-if="section2==='expand'" class="imgInfo">This piece is called walking in the rain and it is inspired by ... </div>
       </div>
-      <div class="img3"/>
-      <div class="img4"/>
-      <div class="img5"/>
+      <div class="img3" :class="section3"/>
+      <div class="img4" :class="section4"/>
+      <div class="img5" :class="section5">
+      </div>
+
     </div>
 
     <div class="footer">
@@ -55,14 +77,24 @@ const click = function (){
 
 <style lang="scss" scoped>
 
-.expand{
-  position: absolute;
-  width: 100%;
+.imageArea5{
+  background-color: #B5A8D5;
   height: 100%;
-  z-index: 1;
-  animation: 1s expand forwards;
+  width: 100%;
 }
 
+.contract{
+  display: none;
+  width: 0%;
+  transition: 2s linear all;
+}
+
+.expand{
+  //width: 100%;
+  //height: 100%;
+  transition: 2s linear all;
+  //animation: expand 2s forwards;
+}
 .imgInfo{
   background-color: rgba(33, 28, 132, 0.8);
   margin-left: auto;
@@ -145,10 +177,17 @@ const click = function (){
 .imageGrid{
   position: relative;
   width: 80%;
+  //display: flex;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 2rem;
   height: 50vh;
+  transition: all 2s linear;
+}
+
+.singleGrid{
+  grid-template-columns: repeat(1, 1fr);
+  transition: all 2s linear;
 }
 
 .img1,.img2,.img3,.img4,.img5{
@@ -156,39 +195,37 @@ const click = function (){
   background-position: 100% 100%;
   cursor: pointer;
   transition: all 2s linear;
-  padding: 1rem;
 }
 
 .img1{
-  background-image: url("public/art1.jpg");
+  background-image: url("/art1.jpg");
 }
 
 .img2{
-  background-image: url("public/art2.jpg");
+  background-image: url("/art2.jpg");
 }
 
 .img3{
-  background-image: url("public/art3.jpg");
+  background-image: url("/art3.jpg");
 }
 
 .img4{
-  background-image: url("public/art4.jpg");
+  background-image: url("/art4.jpg");
 }
 
 .img5{
-  background-image: url("public/art5.jpg");
+  background-image: url("/art5.jpg");
 }
 
 @keyframes expand {
 
   from{
-    width: 20%;
+    width: 0%;
   }
 
   to{
     width: 100%;
   }
-
 
 }
 
